@@ -16,6 +16,8 @@
 
 typedef struct {
     texture_t textures[256];
+
+    u8  portdraw[256];
     u16 y_lo[SCREEN_WIDTH], y_hi[SCREEN_WIDTH];
 } render_state_t;
 

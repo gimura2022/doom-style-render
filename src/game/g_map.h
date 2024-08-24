@@ -22,8 +22,14 @@ typedef struct {
 } sector_t;
 
 typedef struct {
+    u16 texture;
+    world_obj_t obj;
+} sprite_t;
+
+typedef struct {
     struct { sector_t arr[32]; usize n; } sectors;
     struct { wall_t arr[128]; usize n; } walls;
+    struct { sprite_t arr[64]; usize n; } sprites;
 } map_t;
 
 void G_LoadMap(map_t* map, const char* name);
