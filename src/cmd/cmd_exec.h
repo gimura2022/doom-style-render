@@ -25,7 +25,7 @@ typedef enum {
 #define READ_FLOAT_VAR(x) ({ if (sscanf(args, "%f", &x) != 1) return 2; return CE_SUCCESS; }) // macro from read float variable
 #define READ_INT_VAR(x)   ({ if (sscanf(args, "%i", &x) != 1) return 2; return CE_SUCCESS; }) // macro from read int variable
 
-typedef command_exit_t (*cmd_fn_t)(char*); // command fuction
+typedef int (*cmd_fn_t)(char*); // command fuction
 typedef struct {
     char name[32];  // variable name
 

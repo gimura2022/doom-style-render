@@ -12,9 +12,6 @@ cmd_var_t player_eye          = { "sv_player_eye",          "", 0, PLAYER_EYE_Z 
 cmd_var_t player_height       = { "sv_player_height",       "", 0, PLAYER_HEIGHT };
 
 static void G_MovePlayer(player_t* player) {
-    const sector_t* player_sector = &game_state.map.sectors.arr[player->phys_obj.obj.sector];
-
-    v3* pos = &player->phys_obj.obj.pos;
     v3* vel = &player->phys_obj.vel;
 
     phys_obj_t* phys_obj = &player->phys_obj;

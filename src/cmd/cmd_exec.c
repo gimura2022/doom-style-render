@@ -131,7 +131,11 @@ int CMD_ExecCommand(char* args) {
 
 // alias command
 int CMD_Alias(char* args) {
+    int ret = CE_SUCCESS;
+
     for (char* command = strtok_r(args, ";", &args); command != NULL; command = strtok_r(NULL, ";", &args)) {
-        CMD_ExecuteText(command);
+        ret |= CMD_ExecuteText(command);
     }
+
+    return ret;
 }
