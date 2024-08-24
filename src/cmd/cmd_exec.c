@@ -119,14 +119,16 @@ int CMD_ExecCommand(char* args) {
 
     // execute all lines from file
     char line[64];
+    int ret = CE_SUCCESS; 
+
     while (fgets(line, 64, file)) {
         if (line[strlen(line) - 1] == '\n') line[strlen(line) - 1] = '\0'; // remove \n in end
-        CMD_ExecuteText(line);                                             // execute
+        ret |= CMD_ExecuteText(line);                                             // execute
     }
 
     fclose(file); // close file
     
-    return CE_SUCCESS;
+    return ret;
 }
 
 // alias command
