@@ -18,20 +18,19 @@ usize     event_count = 0; // app event count
 SDL_Event events[128];     // app event list
 
 // console command for exit
-// only for client
-int CMD_ExitCommand(char* args __attribute__((unused))) {
+static int CMD_ExitCommand(char* args __attribute__((unused))) {
     client_state.quit = true;
     return CE_SUCCESS;
 }
 
 // debug interrupt call
-int CMD_DebugBreak(char* args __attribute__((unused))) {
+static int CMD_DebugBreak(char* args __attribute__((unused))) {
     __asm__ __volatile__("int {$}3":);
     return CE_SUCCESS;
 }
 
 // command for toggle console
-int CMD_ToggleConsole(char* args __attribute__((unused))) {
+static int CMD_ToggleConsole(char* args __attribute__((unused))) {
     // if console opened, close, else closed open
     client_state.console = !client_state.console;
     return CE_SUCCESS;
