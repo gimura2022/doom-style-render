@@ -23,9 +23,10 @@ static int CMD_MinusRight(char* args __attribute__((unused))) { M_MOV(game_state
 static int CMD_PlusJump(char* args __attribute__((unused)))  { P_MOV(game_state.player.jump); }
 static int CMD_MinusJump(char* args __attribute__((unused))) { M_MOV(game_state.player.jump); }
 
-static cmd_var_t sens         = { "cl_sens", "", 0, 0.005f };
-static cmd_var_t min_vert_ang = { "cl_min_vert_ang", "", 0, -1.0f };
-static cmd_var_t max_vert_ang = { "cl_max_vert_ang", "", 0,  1.0f };
+static cmd_var_t sens          = { "cl_sens", "", 0, 0.005f };
+static cmd_var_t min_vert_ang  = { "cl_min_vert_ang", "", 0, -1.0f };
+static cmd_var_t max_vert_ang  = { "cl_max_vert_ang", "", 0,  1.0f };
+static cmd_var_t mouse_enabled = { "cl_mouse_enabled", "1", 1, 1.f };
 
 static cmd_var_t tick_rate = { "sv_tick_rate", "", TICK_RATE, 0.f };
 
@@ -80,6 +81,7 @@ void G_Init(void) {
     CMD_AddVariable(&sens);
     CMD_AddVariable(&min_vert_ang);
     CMD_AddVariable(&max_vert_ang);
+    CMD_AddVariable(&mouse_enabled);
 
     CMD_AddVariable(&tick_rate);
 
@@ -102,6 +104,8 @@ void G_Init(void) {
 }
 
 static void G_HandleMouse(void) {
+    if (*mouse_enabled.string == '0') return;
+
     int width, height;
     SDL_GetWindowSize(video_state.window, &width, &height);
 
