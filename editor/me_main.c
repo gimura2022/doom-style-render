@@ -5,122 +5,6 @@ SDL_Event events[128];     // app event list
 bool      quit = false;
 
 editor_state_t    editor_state;
-extern vidstate_t video_state;
-
-static void ME_DrawLine(v2i a, v2i b, u32 color) {
-    a.x = clamp(a.x, 1, SCREEN_WIDTH);
-    a.y = clamp(a.y, 1, SCREEN_HEIGHT);
-
-    b.x = clamp(b.x, 1, SCREEN_WIDTH);
-    b.y = clamp(b.y, 1, SCREEN_HEIGHT);
-
-    int x1 = floor(a.x);
-    int x2 = floor(b.x);
-
-    if (x1 > x2) {
-        int temp_i = x1;
-        x1 = x2;
-        x2 = temp_i;
-
-        v2i temp_v = a;
-        a = b;
-        b = temp_v;
-    }
-
-    float d = (b.y - a.y) / clamp(x2 - x1, 1, SCREEN_WIDTH);
-    float y = a.y;
-    
-    for (register int i = x1; i <= x2; i++) {
-        int pix_y = floor(y);
-        video_state.pixels[pix_y * SCREEN_WIDTH + i] = color;
-        y += d;
-    }
-}
-
-#define GIRD_SIZE 512
-
-static void ME_DrawGrid(void) {
-    for (int i = 0; i < GIRD_SIZE; i += editor_state.grid_res) {
-        D_VertLine(
-            clamp(editor_state.pix_pos.y,             0, SCREEN_HEIGHT),
-            clamp(editor_state.pix_pos.y + GIRD_SIZE, 0, SCREEN_HEIGHT),
-            clamp(editor_state.pix_pos.x + i,         0, SCREEN_WIDTH),
-            0xFFFFFFFF
-        );
-
-        D_HorsLine(
-            clamp(editor_state.pix_pos.x,             0, SCREEN_WIDTH),
-            clamp(editor_state.pix_pos.x + GIRD_SIZE, 0, SCREEN_WIDTH),
-            clamp(editor_state.pix_pos.y + i,         0, SCREEN_HEIGHT),
-            0xFFFFFFFF
-        );
-    }
-}
-
-static void ME_DrawMap(void) {
-    for (int i = 0; i < editor_state.walls.n; i++) {
-        const wall_t* wall = &editor_state.walls.arr[i];
-
-        ME_DrawLine(
-            (v2i) {
-                clamp(wall->a.x + editor_state.pix_pos.x, 0, SCREEN_WIDTH),
-                clamp(wall->a.y + editor_state.pix_pos.y, 0, SCREEN_HEIGHT),
-            },
-            (v2i) {
-                clamp(wall->b.x + editor_state.pix_pos.x, 0, SCREEN_WIDTH),
-                clamp(wall->b.y + editor_state.pix_pos.y, 0, SCREEN_HEIGHT),
-            },
-            0xFF00FF00
-        );
-    }
-}
-
-static void ME_Draw(void) {
-    ME_DrawGrid();
-    ME_DrawMap();
-}
-
-#define MOVE_CMD(x, y) ({ x = y; return SUCCESS; })
-#define P_MOV(x) MOVE_CMD(x, true)
-#define M_MOV(x) MOVE_CMD(x, false)
-
-static int CMD_PlusForward(char* args __attribute__((unused)))  { P_MOV(editor_state.forward); }
-static int CMD_MinusForward(char* args __attribute__((unused))) { M_MOV(editor_state.forward); }
-
-static int CMD_PlusBack(char* args __attribute__((unused)))  { P_MOV(editor_state.back); }
-static int CMD_MinusBack(char* args __attribute__((unused))) { M_MOV(editor_state.back); }
-
-static int CMD_PlusLeft(char* args __attribute__((unused)))  { P_MOV(editor_state.left); }
-static int CMD_MinusLeft(char* args __attribute__((unused))) { M_MOV(editor_state.left); }
-
-static int CMD_PlusRight(char* args __attribute__((unused)))  { P_MOV(editor_state.right); }
-static int CMD_MinusRight(char* args __attribute__((unused))) { M_MOV(editor_state.right); }
-
-static int CMD_ToggleConsole(char* args __attribute__((unused))) {
-    editor_state.console = !editor_state.console;
-    return SUCCESS;
-}
-
-static int CMD_ToggleConsole(char* args) {
-    if (strcmp(args, "cursor") == 0) {
-        
-    }
-
-    return SUCCESS;
-}
-
-static void ME_InitCommands(void) {
-    CMD_AddCommand("+forward", &CMD_PlusForward);
-    CMD_AddCommand("-forward", &CMD_MinusForward);
-    CMD_AddCommand("+back",    &CMD_PlusBack);
-    CMD_AddCommand("-back",    &CMD_MinusBack);
-    CMD_AddCommand("+left",    &CMD_PlusLeft);
-    CMD_AddCommand("-left",    &CMD_MinusLeft);
-    CMD_AddCommand("+right",   &CMD_PlusRight);
-    CMD_AddCommand("-right",   &CMD_MinusRight);
-
-    CMD_AddCommand("toggle_console", &CMD_ToggleConsole);
-}
 
 static void ME_Init(int argc, char** argv) {
     SYS_Init(argc, argv);
@@ -130,7 +14,9 @@ static void ME_Init(int argc, char** argv) {
 
     CMD_Init();
     CON_Init();
-    ME_InitCommands();
+    
+    ME_SetupCommand();
+    ME_SetupVariables();
 
     V_Init();
     R_Init();

@@ -16,5 +16,7 @@
 #include "render/r_render.h"
 #include "me_state.h"
 #include "render/draw/r_draw.h"
+#include "me_cmds.h"
+#include "me_draw.h"
 
 #endif

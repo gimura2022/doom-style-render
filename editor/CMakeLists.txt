@@ -6,6 +6,9 @@ add_executable(me_main ./me_main.c)
 target_link_libraries(me_main ${SDL2_LIBRARIES} ${SDL_TTF_LIBRARIES})
 
 target_sources(me_main PRIVATE
+    ./me_cmds.c
+    ./me_draw.c
+
     ./../src/core/mem/m_alloc.c
     ./../src/core/mem/m_utils.c
     ./../src/core/sys.c
