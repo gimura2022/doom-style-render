@@ -23,6 +23,6 @@ void CON_Free(void);
 void CON_Draw(void);
 void CON_Update(void);
 
-void CON_Printf(const char* msg);
+void CON_Printf(const char* format, ...);
 
 #endif

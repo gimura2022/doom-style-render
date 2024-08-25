@@ -49,7 +49,14 @@ void CON_Draw(void) {
 }
 
 // print to console
-void CON_Printf(const char* msg) {
+void CON_Printf(const char* format, ...) {
+    char msg[128];
+
+    va_list args;
+    va_start(args, format);
+    vsnprintf(msg, sizeof(msg), format, args);
+    va_end(args);
+
     strcat(con_buf, msg); // add message to back
 
     // scrolling

@@ -60,6 +60,8 @@ static int CMD_LoadMap(char* args) {
 }
 
 void G_Init(void) {
+    CON_Printf("--- Game init start ---\n");
+
     CMD_AddCommand("+forward", &CMD_PlusForward);
     CMD_AddCommand("-forward", &CMD_MinusForward);
     CMD_AddCommand("+back",    &CMD_PlusBack);
@@ -93,6 +95,10 @@ void G_Init(void) {
     CMD_AddVariable(&player_height);
 
     G_InitPlayer(&game_state.player);
+
+    CMD_ExecuteText("exec game.cfg"); // execute game config
+
+    CON_Printf("--- Game init end ---\n");
 }
 
 static void G_HandleMouse(void) {

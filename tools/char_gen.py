@@ -1,6 +1,6 @@
 from PIL import Image, ImageFont, ImageDraw
 
-CHAR_SIZE = 16
+CHAR_SIZE = 12
 
 image = Image.new("RGBA", (CHAR_SIZE * 256, CHAR_SIZE), (0, 0, 0))
 

@@ -46,6 +46,9 @@ static void CL_Init(int argc, char** argv) {
     SYS_Init(argc, argv); // init SYS module
     M_Init(); // init memory manager
 
+    CON_Printf("--- Client init start ---\n");
+    CON_Printf("--- Client base init start ---\n");
+
     srand(time(NULL)); // init random
 
     KEY_Init(); // init key manager
@@ -60,9 +63,12 @@ static void CL_Init(int argc, char** argv) {
     V_Init();   // init video
     R_Init();   // render init
 
+    CON_Printf("--- Client base init end ---\n");
+
     G_Init();   // init game
 
-    CMD_ExecuteText("exec game.cfg"); // execute game config
+    CON_Printf("--- Client init end ---\n");
+    CON_Printf("Init time %i ms\n", SDL_GetTicks());
 }
 
 // process SDL events

@@ -66,8 +66,13 @@ static void G_LoadTextSectors(map_t* map, const char* source) {
 // }
 
 void G_LoadMap(map_t* map, const char* name) {
+    CON_Printf("--- Map loading start ---\n");
+
     char path[64];
     sprintf(path, "maps/%s.prt", name);
+    CON_Printf("Loading map from %s\n", path);
 
     G_LoadTextGeometry(map, SYS_ReadFile(path), SYS_ReadFileSize(path));
+
+    CON_Printf("--- Map loading end ---\n");
 }

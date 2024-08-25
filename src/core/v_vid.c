@@ -4,6 +4,8 @@ vidstate_t video_state;
 u32*       g_pVidbuf;
 
 void V_Init(void) {
+    CON_Printf("Client video init\n");
+
     ASSERT(
         !SDL_Init(SDL_INIT_VIDEO),
         "V_Init: SDL init error: %s",

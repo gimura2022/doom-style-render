@@ -36,6 +36,8 @@ void CMD_Init(void) {
 
 // add new command
 void CMD_AddCommand(const char* name, cmd_fn_t func) {
+    CON_Printf("Adding command %s\n", name);
+
     cmd_t cmd = {};                       // create command structure
     memcpy(cmd.name, name, strlen(name)); // copy name to structure
     cmd.fn = func;                        // set function pointer to target function
@@ -45,6 +47,8 @@ void CMD_AddCommand(const char* name, cmd_fn_t func) {
 
 // add console variable
 void CMD_AddVariable(cmd_var_t* var) {
+    CON_Printf("Adding variable %s\n", var->name);
+
     cmd_vars[cmd_var_len++] = var; // push variable to last free index
 }
 
@@ -99,16 +103,14 @@ int CMD_ExecuteText(const char* in) {
 
 // echo command
 int CMD_Echo(char* args) {
-    // add \n to end
-    char buf[64];
-    snprintf(buf, sizeof(buf), "%s\n", args);
-
-    CON_Printf(buf); // print variable
+    CON_Printf("%s\n", args); // print variable
     return CE_SUCCESS;
 }
 
 // exec command
 int CMD_ExecCommand(char* args) {
+    CON_Printf("Executing config %s\n", args);
+
     char  path[64];
     char* game_dir = SYS_GetGameDir();
     sprintf(path, "%s%s", game_dir, args);
