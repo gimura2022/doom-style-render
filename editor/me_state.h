@@ -19,6 +19,8 @@ typedef struct {
     bool jump;
 
     bool console;
+
+    bool quit;
 } editor_state_t;
 
 #endif

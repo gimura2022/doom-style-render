@@ -70,11 +70,11 @@ static void ME_MainLoop(void) {
         last = 0;
 
     // main loop
-    while (!quit) {
+    while (!editor_state.quit) {
         CL_CheckWindowEvents(); // process events
 
         // if quit in true, break
-        if (quit) {
+        if (editor_state.quit) {
             break;
         }
 

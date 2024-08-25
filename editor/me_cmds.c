@@ -23,6 +23,18 @@ static int CMD_ToggleConsole(char* args __attribute__((unused))) {
     return CE_SUCCESS;
 }
 
+// console command for exit
+static int CMD_ExitCommand(char* args __attribute__((unused))) {
+    editor_state.quit = true;
+    return CE_SUCCESS;
+}
+
+// debug interrupt call
+static int CMD_DebugBreak(char* args __attribute__((unused))) {
+    __asm__ __volatile__("int {$}3":);
+    return CE_SUCCESS;
+}
+
 static int CMD_AddPoint(char* args) {
     if (strcmp(args, "cursor") == 0) {
         
@@ -41,7 +53,9 @@ void ME_SetupCommand(void) {
     CMD_AddCommand("+right",   &CMD_PlusRight);
     CMD_AddCommand("-right",   &CMD_MinusRight);
 
-    CMD_AddCommand("toggle_console", &CMD_ToggleConsole);
+    CMD_AddCommand("exit",           &CMD_ExitCommand);   // add command for exit
+    CMD_AddCommand("debug_break",    &CMD_DebugBreak);    // add command for debug break
+    CMD_AddCommand("toggle_console", &CMD_ToggleConsole); // add toggle console command
 }
 
 void ME_SetupVariables(void) {
