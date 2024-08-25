@@ -52,7 +52,7 @@ void T_GenDebugTexture(texture_t* tex) {
     const u32 red   = 0xFFFF00FF;
 
     for (int i = 0; i < tex->size.x * tex->size.y; i++) {
-        u32 color = rand() & 1 ? black : red;
+        u32 color = i % 2 == 0 ? black : red;
         tex->data[i] = color;
     }
 }

@@ -267,19 +267,17 @@ static void R_WallRenderer(
     // floor
     if (yf > render_state.y_lo[data->x]) {
         D_VertLine(
-            render_state.y_lo[data->x],
-            yf,
-            data->x,
-            MATH_AbgrMul(0xFFFF0000, light));
+            render_state.y_lo[data->x], yf, data->x,
+            MATH_AbgrMul(0xFF8C8C8C, light)
+        );
     }
 
     // ceiling
     if (yc < render_state.y_hi[data->x]) {
         D_VertLine(
-            yc,
-            render_state.y_hi[data->x],
-            data->x,
-            MATH_AbgrMul(0xFF00FFFF, light));
+            yc, render_state.y_hi[data->x], data->x,
+            MATH_AbgrMul(0xFF8C8C8C, light)
+        );
     }
 
     if (wall->portal) {
@@ -290,26 +288,23 @@ static void R_WallRenderer(
             nyc = clamp(tnyc + data->vert_angl, render_state.y_lo[data->x], render_state.y_hi[data->x]);
 
         D_VertLine(
-            nyc,
-            yc,
-            data->x,
-            MATH_AbgrMul(MATH_AbgrMul(0xFF00FF00, shade), light));
+            nyc, yc, data->x,
+            MATH_AbgrMul(MATH_AbgrMul(0xFFACACAC, shade), light)
+        );
 
         D_VertLine(
-            yf,
-            nyf,
-            data->x,
-            MATH_AbgrMul(MATH_AbgrMul(0xFF0000FF, shade), light));
+            yf, nyf, data->x,
+            MATH_AbgrMul(MATH_AbgrMul(0xFFACACAC, shade), light)
+        );
 
         render_state.y_hi[data->x] = clamp(min(min(yc, nyc), render_state.y_hi[data->x]), 0, SCREEN_HEIGHT - 1);
         render_state.y_lo[data->x] = clamp(max(max(yf, nyf), render_state.y_lo[data->x]), 0, SCREEN_HEIGHT - 1);
     }
     else {
         D_VertLine(
-            yf,
-            yc,
-            data->x,
-            MATH_AbgrMul(MATH_AbgrMul(0xFFFFFFFF, shade), light));
+            yf, yc, data->x,
+            MATH_AbgrMul(MATH_AbgrMul(0xFFC7C7C7, shade), light)
+        );
     }
 }
 
