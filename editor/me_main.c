@@ -22,11 +22,6 @@ static void ME_Init(int argc, char** argv) {
     R_Init();
 
     editor_state.grid_res = 30;
-    editor_state.walls.arr[editor_state.walls.n++] = (wall_t) {
-        (v2i) { 0, 0 },
-        (v2i) { 40, 50 },
-        0
-    };
 
     CMD_ExecuteText("exec editor.cfg");
 }

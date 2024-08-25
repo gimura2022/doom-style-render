@@ -3,6 +3,8 @@
 extern vidstate_t     video_state;
 extern editor_state_t editor_state;
 
+cmd_var_t point_size = { "r_point_size", "", 3, 0.f };
+
 static void ME_DrawLine(v2i a, v2i b, u32 color) {
     a.x = clamp(a.x, 1, SCREEN_WIDTH);
     a.y = clamp(a.y, 1, SCREEN_HEIGHT);
@@ -41,14 +43,14 @@ static void ME_DrawGrid(void) {
             clamp(editor_state.pix_pos.y,             0, SCREEN_HEIGHT),
             clamp(editor_state.pix_pos.y + GIRD_SIZE, 0, SCREEN_HEIGHT),
             clamp(editor_state.pix_pos.x + i,         0, SCREEN_WIDTH),
-            0xFFFFFFFF
+            0xFFACACAC
         );
 
         D_HorsLine(
             clamp(editor_state.pix_pos.x,             0, SCREEN_WIDTH),
             clamp(editor_state.pix_pos.x + GIRD_SIZE, 0, SCREEN_WIDTH),
             clamp(editor_state.pix_pos.y + i,         0, SCREEN_HEIGHT),
-            0xFFFFFFFF
+            0xFFACACAC
         );
     }
 }
@@ -68,6 +70,24 @@ static void ME_DrawMap(void) {
             },
             0xFF00FF00
         );
+    }
+
+    for (int i = 0; i < editor_state.points.n; i++) {
+        const v2i* point = &editor_state.points.arr[i]; 
+
+        for (
+             register int j = (point->x - point_size.integer) + editor_state.pos.x;
+                          j < (point->x + point_size.integer) + editor_state.pos.x;
+                          j++
+        ) {
+            for (
+                register int k = (point->y - point_size.integer) + editor_state.pos.y;
+                             k < (point->y + point_size.integer) + editor_state.pos.y;
+                             k++
+            ) {
+                video_state.pixels[k * SCREEN_WIDTH + j] = 0xFF00FF00;
+            }
+        }
     }
 }
 

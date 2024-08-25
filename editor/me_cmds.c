@@ -37,8 +37,16 @@ static int CMD_DebugBreak(char* args __attribute__((unused))) {
 
 static int CMD_AddPoint(char* args) {
     if (strcmp(args, "cursor") == 0) {
-        
+        ERROR("CMD_AddPoint: not implemented");
     }
+
+    int x, y;
+    if (sscanf(
+        args, "%i %i",
+        &x, &y
+    ) != 2) return CE_COMMAND_ERROR;
+
+    editor_state.points.arr[editor_state.points.n++] = (v2i) { x, y };
 
     return CE_SUCCESS;
 }
@@ -52,6 +60,8 @@ void ME_SetupCommand(void) {
     CMD_AddCommand("-left",    &CMD_MinusLeft);
     CMD_AddCommand("+right",   &CMD_PlusRight);
     CMD_AddCommand("-right",   &CMD_MinusRight);
+
+    CMD_AddCommand("add_point", &CMD_AddPoint);
 
     CMD_AddCommand("exit",           &CMD_ExitCommand);   // add command for exit
     CMD_AddCommand("debug_break",    &CMD_DebugBreak);    // add command for debug break
