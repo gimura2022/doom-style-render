@@ -31,16 +31,18 @@
 #include "render/draw/r_draw.h"     // draw funtions
 
 // utils header
-#include "utils/u_def.h"       // macro, types constat and C headers
-#include "utils/math/u_math.h" // math functions
+#include "utils/u_def.h"            // macro, types constat and C headers
+#include "utils/math/u_math.h"      // math functions
+// #include "utils/types/u_hash_map.h" // hash map type
 
 // core files
-#include "core/v_vid.h"          // video system
-#include "core/file/f_conf.h"    // config files
-#include "core/mem/m_alloc.h"    // memory manager
-#include "core/mem/m_utils.h"    // memory utils and metrics
-#include "core/sys.h"            // system utils
-#include "core/keys/k_manager.h" // key manager
+#include "core/v_vid.h"               // video system
+#include "core/file/f_conf.h"         // config files
+#include "core/mem/m_alloc.h"         // memory manager
+#include "core/mem/m_utils.h"         // memory utils and metrics
+#include "core/sys.h"                 // system utils
+#include "core/keys/k_manager.h"      // key manager
+#include "core/profiler/p_profiler.h" // profiler
 
 // console and commands
 #include "cmd/cmd_exec.h"   // command executor

@@ -93,7 +93,8 @@
     "sdl_ttf.h": "c",
     "m_alloc.h": "c",
     "sys.h": "c",
-    "ctype.h": "c"
+    "ctype.h": "c",
+    "u_hash_map.h": "c"
   },
   "C_Cpp.errorSquiggles": "disabled"
 }
