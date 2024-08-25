@@ -17,21 +17,20 @@ static FILE* con_log;       // logging file
 
 extern vidstate_t   video_state;  // link video state
 
-static cmd_var_t console_black_out     = { "con_blackout",      "",   32, 0.f };
-static cmd_var_t console_input_prefix  = { "con_input_prefix",  "] ", 0,  0.f };
-static cmd_var_t console_print_errors  = { "con_print_errors",  "0",  0,  0.f };
-static cmd_var_t console_store_history = { "con_save_logs",     "1",  0,  0.f }; 
+static cmd_var_t console_black_out     = { "con_blackout",      "",   32, 0.f }; // back out value
+static cmd_var_t console_input_prefix  = { "con_input_prefix",  "] ", 0,  0.f }; // console input prefix
+static cmd_var_t console_print_errors  = { "con_print_errors",  "0",  0,  0.f }; // print errors?
+static cmd_var_t console_store_history = { "con_save_logs",     "1",  0,  0.f }; // save logs?
 
 // init console
 void CON_Init(void) {
     CON_DrawInit(); // init char drawing (load charset)
 
+    // add variables
     CMD_AddVariable(&console_black_out);
     CMD_AddVariable(&console_input_prefix);
     CMD_AddVariable(&console_print_errors);
     CMD_AddVariable(&console_store_history);
-
-    CON_Printf(console_input_prefix.string);
 }
 
 // free console
@@ -44,7 +43,9 @@ void CON_Free(void) {
 // draw console
 void CON_Draw(void) {
     GFX_Blackout(console_black_out.integer, (v2i) { 0, 0 }, (v2i) { SCREEN_WIDTH, SCREEN_HEIGHT }); // black screen buffer
+
     CON_DrawString((v2i) { 5, SCREEN_HEIGHT - 10 }, con_buf); // draw console buffer
+    CON_DrawString((v2i) { 5, 10 }, con_in);                  // draw input buffer
 }
 
 // print to console
@@ -80,15 +81,16 @@ void CON_Printf(const char* msg) {
 
 // process input
 static void CON_ProcessInput(const char* text) {
-    CON_Printf(text);
-
     if (strlen(con_in) >= sizeof(con_in)) return; // if input buffer string size > max length of input buffer, return
     strcat(con_in, text);                         // add new text to input buffer
 }
 
 // exec command in input buffer
 static void CON_Exec(void) {
-    if (strlen(con_in) == 0) return; // if command buffer is NULL, return
+    char buf[64];
+    sprintf(buf, "%s%s", console_input_prefix.string, con_in);
+
+    CON_Printf(buf);
 
     // execute command
     int ret = CMD_ExecuteText(con_in);
@@ -114,7 +116,6 @@ static void CON_Exec(void) {
     memset(con_in, '\0', sizeof(con_in));
 
     CON_Printf("\n");
-    CON_Printf(console_input_prefix.string);
 }
 
 extern usize     event_count; // app event count
